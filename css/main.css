@@ -1,0 +1,61 @@
+
+body {
+  background-color: #db7070;
+  margin: 15px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#container {
+  width: auto !important;
+}
+
+.cardPoke {
+  border: solid 10px #db7070;
+  text-align: center;
+  border-radius: 25px;
+  background-color: white;
+}
+
+.cardPoke img {
+  width: 40%;
+}
+
+.cardName {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+}
+
+.cardHabilities{
+  font-weight: lighter;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: rgb(65, 64, 64);
+  width: auto;
+}
+
+.cardHabilities p{
+  background-color: rgb(196, 139, 35);
+  color: white;
+  border-radius:10px;
+  border: solid 5px white;
+}
+
+#pagination {
+  text-align: center;
+}
+
+.paginationBtn {
+  border: solid 10px #e99595;
+  background-color: rgb(199, 39, 39);
+  color: white;
+  padding: 10px;
+  border-radius: 25px;
+  cursor: pointer;
+  
+}

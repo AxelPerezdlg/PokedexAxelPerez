@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="pokedex">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Pokédex</title>
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="getData()">
+    <div id="container" class="col-md-12 row"></div>
+    <div id="pagination" class="col-md-12 row">
+        <div class="col-md-3"></div>
+        <div class="paginationBtn col-md-3" onclick="movePage('prev')">< Prev </div>
+        <div class="paginationBtn col-md-3" onclick="movePage('next')"> Next ></div>
+        <div class="col-md-3"></div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+
+    let offset = 0;
+    let limit = 20;
+    let count = 0;
+
+    function getData() {
+
+        let url = ""
+        if (offset != 0) {
+            url = "https://pokeapi.co/api/v2/pokemon/?offset=" + offset + "&limit=" + limit + "";
+        } else {
+            url = "https://pokeapi.co/api/v2/pokemon/";
+        }
+        let html = '';
+
+        fetch(url).then(response => response.json()).then(data => {
+
+            count = data.count;
+
+            data.results.forEach(element => {
+
+                html += '<div class="cardPoke col-md-3">';
+                html += '<p class="cardName">' + element.name + '</p>'
+                html += '<img id="img_' + element.name + '"/>'
+                html += '<p class="cardHabilities col-md-12 row" id="habilidad_' + element.name + '"></p>'
+                fetch(element.url).then(response => response.json()).then(data => {
+                    document.getElementById("img_" + element.name).src = data.sprites.other['official-artwork'].front_default;
+                    let habilidadesDiv = '';
+                    data.abilities.forEach(habilidades => {
+                        habilidadesDiv += '<p class="col-md-6">' + habilidades.ability.name + '</p>';
+                    });
+                    document.getElementById("habilidad_" + element.name).innerHTML = habilidadesDiv;
+                });
+                html += '</div>'
+            });
+            document.getElementById("container").innerHTML = html;
+        });
+    }
+
+    function movePage(type) {
+        if (type == 'prev') {
+            if (offset != 0) {
+                offset = offset - 20;
+                getData();
+            }else{
+                alert("No hay registros anteriores")
+            }
+        } else {
+            if ((offset + 20) <= count) {
+                offset = offset + 20;
+                getData();
+            }else{
+                alert("No hay más registros")
+            }
+        }
+    }
+</script>
+
+</html>
